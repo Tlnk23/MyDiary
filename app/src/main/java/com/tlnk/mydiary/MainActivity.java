@@ -1,14 +1,102 @@
 package com.tlnk.mydiary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.tlnk.mydiary.ui.dairy.DairyFragment;
+import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
+    private FragmentManager fragmentManager;
+    private androidx.fragment.app.FragmentTransaction fragmentTransaction;
+
+    private LinearLayout dateButton;
+    private int mDay, mMonth, mYear;
+
+    private FloatingActionButton fab;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        toolbar = findViewById(R.id.main_toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+
+        setSupportActionBar(toolbar);
+
+        changeFragment(new DairyFragment());
+
+        dateButton = findViewById(R.id.section_date);
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                mDay = calendar.get(Calendar.DATE);
+                mMonth = calendar.get(Calendar.MONTH);
+                mYear = calendar.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        toolbarTitle.setText(dayOfMonth + "." + month + "."+year);
+                    }
+                }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new TaskCreateFragment());
+                toolbar.setVisibility(View.INVISIBLE);
+                dateButton.setVisibility(View.GONE);
+                fab.hide();
+            }
+        });
+
+    }
+
+    public void changeFragment(Fragment targetfragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentView, targetfragment, "fragment")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    private String dataSet() {
+        Date currentDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        String dateText = dateFormat.format(currentDate);
+        return dateText;
     }
 }

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">My Diary</string>
+    <string name="textDate">03.02.2021</string>
+    <string name="task_name_text">Таск 1</string>
+    <string name="task_time_text">14.00 - 15.00</string>
+    <string name="add_description">Добавить задание</string>
+    <string name="add_task_text">Создание нового дела</string>
+    <string name="edttext_task_name">Название дела</string>
+    <string name="edttext_task_time">18:00</string>
+    <string name="edttext_task_date">03.02.2021</string>
+    <string name="edttext_task_description">Описание дела</string>
+    <string name="add_button_title">Создать</string>
 </resources>

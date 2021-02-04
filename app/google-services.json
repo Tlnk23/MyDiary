@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "238009514251",
+    "project_id": "mydairy-b7371",
+    "storage_bucket": "mydairy-b7371.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238009514251:android:869cb1b5932a13becfca0e",
+        "android_client_info": {
+          "package_name": "com.tlnk.mydiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238009514251-pj630c47inhtit7pudqqdoa9qjg0rco7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tlnk.mydiary",
+            "certificate_hash": "d5dde3bdb9dcd30bdede5cf6175ed9de8a2113e1"
+          }
+        },
+        {
+          "client_id": "238009514251-ofd55hpdnbmv0ivpoujdpb6g531l9mh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWS96j0MiyXz3GMvXQZ0z36E0pYtAyT7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238009514251-ofd55hpdnbmv0ivpoujdpb6g531l9mh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
