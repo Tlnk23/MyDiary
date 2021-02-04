@@ -47,4 +47,6 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
     implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }
