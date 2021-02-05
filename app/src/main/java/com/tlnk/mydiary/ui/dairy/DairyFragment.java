@@ -4,25 +4,51 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.tlnk.mydiary.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Alexandr Egorshin on 03.02.2021.
  */
-public class DairyFragment extends Fragment {
+public class DairyFragment extends Fragment{
 
     private View view;
+    private RecyclerView recyclerView;
+    private DairyAdapter dairyAdapter;
+    private DairyViewModel dairyViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dairy, null);
+
+        recyclerView = view.findViewById(R.id.dairyListView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
+        dairyViewModel.init();
+        dairyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<DairyModel>>() {
+            @Override
+            public void onChanged(ArrayList<DairyModel> dairyModels) {
+                dairyAdapter.notifyDataSetChanged();
+            }
+        });
+
+        dairyAdapter = new DairyAdapter(dairyViewModel.getLiveData().getValue());
+
+        recyclerView.setAdapter(dairyAdapter);
         return view;
     }
+
 }

@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="@id/taskDivider"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/task_name_text"
+        android:textSize="20sp"
         android:textColor="@color/greyGreen"/>
 
     <View
@@ -34,6 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/task_time_text"
+        android:textSize="20sp"
         android:textColor="@color/greyGreen"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
