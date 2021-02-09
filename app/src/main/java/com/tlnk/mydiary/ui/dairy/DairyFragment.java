@@ -18,8 +18,9 @@ import com.tlnk.mydiary.R;
 import java.util.ArrayList;
 
 /**
- * Created by Alexandr Egorshin on 03.02.2021.
- */
+ * Created by Alexandr Egorshin on 03.02.2021.*
+ * */
+
 public class DairyFragment extends Fragment{
 
     private View view;
@@ -36,6 +37,12 @@ public class DairyFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
+        loadData();
+
+        return view;
+    }
+
+    public void loadData() {
         dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
         dairyViewModel.init();
         dairyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<DairyModel>>() {
@@ -48,7 +55,6 @@ public class DairyFragment extends Fragment{
         dairyAdapter = new DairyAdapter(dairyViewModel.getLiveData().getValue());
 
         recyclerView.setAdapter(dairyAdapter);
-        return view;
     }
 
 }

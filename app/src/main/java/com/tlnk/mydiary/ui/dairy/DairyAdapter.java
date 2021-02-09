@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tlnk.mydiary.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHolder> {
 
@@ -31,6 +34,8 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
     public void onBindViewHolder(@NonNull DairyViewHolder holder, int position) {
         holder.itemView.setTag(dairyModels.get(position));
         holder.name.setText(dairyModels.get(position).getName());
+
+        holder.time.setText(setTime(dairyModels.get(position).getDate_start(), dairyModels.get(position).getDate_finish()));
     }
 
     @Override
@@ -41,10 +46,25 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
     class DairyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
+        TextView time;
+
         public DairyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.taskName);
+            time = itemView.findViewById(R.id.taskTime);
         }
+    }
+
+    private String setTime(long millisStart, long millisFinish) {
+        Calendar dateStart = Calendar.getInstance();
+        Calendar dateFinish = Calendar.getInstance();
+
+        dateStart.setTimeInMillis(millisStart);
+        dateFinish.setTimeInMillis(millisFinish);
+
+        String finalDate = dateStart.get(Calendar.HOUR_OF_DAY) + ":" + dateStart.get(Calendar.MINUTE) + " - " + dateFinish.get(Calendar.HOUR_OF_DAY) + ":" + dateFinish.get(Calendar.MINUTE);
+
+        return (finalDate);
     }
 }
