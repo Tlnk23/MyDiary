@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tlnk.mydiary.MainActivity;
 import com.tlnk.mydiary.R;
+import com.tlnk.mydiary.ui.dairy.DairyFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class TaskCreateFragment extends Fragment {
     private Button submitButton;
     private int mDay, mMonth, mYear;
     public DatabaseReference databaseReference;
+    DairyFragment dairyFragment;
 
     @Nullable
     @Override
@@ -57,7 +59,8 @@ public class TaskCreateFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPushClick(v);
+                pushTask(v);
+                changeFragment();
 
             }
         });
@@ -77,7 +80,7 @@ public class TaskCreateFragment extends Fragment {
         editDate = view.findViewById(R.id.add_task_date);
     }
 
-    public void onPushClick(View view) {
+    public void pushTask(View view) {
         String name = editName.getText().toString();
         String description = editDescription.getText().toString();
 
@@ -102,5 +105,10 @@ public class TaskCreateFragment extends Fragment {
 
         TaskCreateModel taskCreateModel = new TaskCreateModel(name, description, startMills, finishMills);
         databaseReference.push().setValue(taskCreateModel);
+    }
+
+    private void changeFragment() {
+        ((MainActivity)getActivity()).changeFragment(new DairyFragment());
+        ((MainActivity)getActivity()).showTools();
     }
 }

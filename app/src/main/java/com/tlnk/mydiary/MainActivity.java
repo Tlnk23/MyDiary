@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.main_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(dataSet());
 
         setSupportActionBar(toolbar);
 
@@ -98,5 +99,11 @@ public class MainActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
         return dateText;
+    }
+
+    public void showTools() {
+        fab.show();
+        toolbar.setVisibility(View.VISIBLE);
+        dateButton.setVisibility(View.VISIBLE);
     }
 }

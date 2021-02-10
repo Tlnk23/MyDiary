@@ -42,6 +42,18 @@ public class DairyFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadData();
+    }
+
     public void loadData() {
         dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
         dairyViewModel.init();
