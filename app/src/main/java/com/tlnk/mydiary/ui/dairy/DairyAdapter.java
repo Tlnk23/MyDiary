@@ -19,6 +19,12 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
 
     private ArrayList<DairyModel> dairyModels;
 
+    public void setDairyAdapterClick(DairyAdapterClick dairyAdapterClick) {
+        this.dairyAdapterClick = dairyAdapterClick;
+    }
+
+    public DairyAdapterClick dairyAdapterClick;
+
     public DairyAdapter(ArrayList<DairyModel> dairyModels) {
         this.dairyModels = dairyModels;
     }
@@ -27,7 +33,7 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
     @Override
     public DairyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dairy_item_view, parent, false);
-        return new DairyViewHolder(view);
+        return new DairyViewHolder(view, dairyAdapterClick);
     }
 
     @Override
@@ -36,6 +42,14 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
         holder.name.setText(dairyModels.get(position).getName());
 
         holder.time.setText(setTime(dairyModels.get(position).getDate_start(), dairyModels.get(position).getDate_finish()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dairyAdapterClick != null) {
+                    dairyAdapterClick.onTaskClick(dairyModels.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -47,9 +61,12 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
 
         TextView name;
         TextView time;
+        DairyAdapterClick dairyAdapterClick;
 
-        public DairyViewHolder(@NonNull View itemView) {
+        public DairyViewHolder(@NonNull View itemView, DairyAdapterClick dairyAdapterClick) {
             super(itemView);
+
+            this.dairyAdapterClick = dairyAdapterClick;
 
             name = itemView.findViewById(R.id.taskName);
             time = itemView.findViewById(R.id.taskTime);

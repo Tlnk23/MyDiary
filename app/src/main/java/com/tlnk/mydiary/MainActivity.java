@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tlnk.mydiary.ui.dairy.DairyFragment;
+import com.tlnk.mydiary.ui.dairy.DairyModel;
 import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
+import com.tlnk.mydiary.ui.taskDescription.TaskDescriptionFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -82,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 fab.hide();
             }
         });
-
     }
 
     public void changeFragment(Fragment targetfragment) {
@@ -105,5 +106,17 @@ public class MainActivity extends AppCompatActivity {
         fab.show();
         toolbar.setVisibility(View.VISIBLE);
         dateButton.setVisibility(View.VISIBLE);
+    }
+
+    public String getDate() {
+        return toolbarTitle.getText().toString();
+    }
+
+    public TaskDescriptionFragment newInstance(DairyModel dairyModel) {
+        TaskDescriptionFragment f = new TaskDescriptionFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("dairyModel", dairyModel);
+        f.setArguments(args);
+        return f;
     }
 }

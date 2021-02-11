@@ -1,8 +1,10 @@
 package com.tlnk.mydiary.ui.dairy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,15 +40,29 @@ public class DairyRepo {
     private void loadNames() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-        Query query = reference.child("Data");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = reference.child("Data").orderByValue();
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    dairyModels.add(dataSnapshot.getValue(DairyModel.class));
-                }
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                dairyModels.add(snapshot.getValue(DairyModel.class));
                 name.postValue(dairyModels);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                dairyModels.add(snapshot.getValue(DairyModel.class));
+                name.postValue(dairyModels);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                dairyModels.add(snapshot.getValue(DairyModel.class));
+                name.postValue(dairyModels);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -54,6 +70,5 @@ public class DairyRepo {
 
             }
         });
-
     }
 }

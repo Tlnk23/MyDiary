@@ -1,6 +1,8 @@
 package com.tlnk.mydiary.ui.dairy;
 
-public class DairyModel {
+import java.io.Serializable;
+
+public class DairyModel implements Serializable {
 
     private String id;
     private String name;
@@ -24,16 +26,16 @@ public class DairyModel {
     public long getDate_start() {
         return date_start;
     }
-//
-//    public long getTime() {
-//        return date_start;
-//    }
-//
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
+
+    public long getTime() {
+        return date_start;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

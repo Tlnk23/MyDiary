@@ -13,13 +13,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tlnk.mydiary.MainActivity;
 import com.tlnk.mydiary.R;
+import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
+import com.tlnk.mydiary.ui.taskDescription.TaskDescriptionFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by Alexandr Egorshin on 03.02.2021.*
- * */
+ **/
 
 public class DairyFragment extends Fragment{
 
@@ -42,16 +45,13 @@ public class DairyFragment extends Fragment{
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadData();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        loadData();
+    private void taskClickListner() {
+        dairyAdapter.dairyAdapterClick = new DairyAdapterClick() {
+            @Override
+            public void onTaskClick(DairyModel dairyModel) {
+                ((MainActivity)getActivity()).changeFragment(((MainActivity)getActivity()).newInstance(dairyModel));
+            }
+        };
     }
 
     public void loadData() {
@@ -63,9 +63,8 @@ public class DairyFragment extends Fragment{
                 dairyAdapter.notifyDataSetChanged();
             }
         });
-
         dairyAdapter = new DairyAdapter(dairyViewModel.getLiveData().getValue());
-
+        taskClickListner();
         recyclerView.setAdapter(dairyAdapter);
     }
 
