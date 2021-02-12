@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,13 @@ public class DairyFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        loadData();
+        super.onResume();
+
+    }
+
     private void taskClickListner() {
         dairyAdapter.dairyAdapterClick = new DairyAdapterClick() {
             @Override
@@ -56,7 +64,7 @@ public class DairyFragment extends Fragment{
 
     public void loadData() {
         dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
-        dairyViewModel.init();
+        dairyViewModel.init(((MainActivity)getActivity()).getTimeStart(), ((MainActivity)getActivity()).getTimeFinish());
         dairyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<DairyModel>>() {
             @Override
             public void onChanged(ArrayList<DairyModel> dairyModels) {
@@ -66,6 +74,7 @@ public class DairyFragment extends Fragment{
         dairyAdapter = new DairyAdapter(dairyViewModel.getLiveData().getValue());
         taskClickListner();
         recyclerView.setAdapter(dairyAdapter);
+        dairyAdapter.notifyDataSetChanged();
     }
 
 }

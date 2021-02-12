@@ -14,12 +14,12 @@ public class DairyViewModel extends ViewModel {
     private MutableLiveData<ArrayList<DairyModel>> liveData;
     private DairyRepo dairyRepo;
 
-    public void init () {
+    public void init (long timeStart, long timeFinish) {
         if (liveData!=null) {
             return;
         }
 
-        liveData = DairyRepo.getInstance().getNames();
+        liveData = DairyRepo.getInstance().getNames(timeStart, timeFinish);
     }
 
     public LiveData<ArrayList<DairyModel>> getLiveData() {

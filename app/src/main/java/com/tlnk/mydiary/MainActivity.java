@@ -11,7 +11,6 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
 import com.tlnk.mydiary.ui.taskDescription.TaskDescriptionFragment;
 
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.main_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(dataSet());
 
         setSupportActionBar(toolbar);
 
-        changeFragment(new DairyFragment());
+        mainFragment(new DairyFragment());
 
         dateButton = findViewById(R.id.section_date);
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         toolbarTitle.setText(dayOfMonth + "." + month + "."+year);
+                        Fragment frg = null;
+                        frg = getSupportFragmentManager().findFragmentByTag("fragment_dairy");
+                        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.detach(frg);
+                        ft.attach(frg);
+                        ft.commit();
+
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -86,10 +92,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void mainFragment(Fragment targetfragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentView, targetfragment, "fragment_dairy")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commitAllowingStateLoss();
+    }
+
+    public void refreshFragment(Fragment targetfragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .detach(targetfragment)
+                .attach(targetfragment)
+                .commit();
+    }
+
+
+
     public void changeFragment(Fragment targetfragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentView, targetfragment, "fragment")
+                .replace(R.id.fragmentView, targetfragment)
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
@@ -108,8 +132,25 @@ public class MainActivity extends AppCompatActivity {
         dateButton.setVisibility(View.VISIBLE);
     }
 
-    public String getDate() {
-        return toolbarTitle.getText().toString();
+    public long getTimeStart() {
+        String str = toolbarTitle.getText().toString();
+        ParsePosition pp1 = new ParsePosition(0);
+        Date date=new SimpleDateFormat("dd.MM.yyyy").parse(str, pp1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return calendar.getTimeInMillis();
+    }
+
+    public long getTimeFinish() {
+        String str = toolbarTitle.getText().toString();
+        ParsePosition pp1 = new ParsePosition(0);
+        Date date=new SimpleDateFormat("dd.MM.yyyy").parse(str, pp1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        return calendar.getTimeInMillis();
     }
 
     public TaskDescriptionFragment newInstance(DairyModel dairyModel) {
@@ -119,4 +160,5 @@ public class MainActivity extends AppCompatActivity {
         f.setArguments(args);
         return f;
     }
+
 }
