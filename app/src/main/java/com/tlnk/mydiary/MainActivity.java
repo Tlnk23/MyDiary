@@ -22,6 +22,7 @@ import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
 import com.tlnk.mydiary.ui.taskDescription.TaskDescriptionFragment;
 
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private TextView toolbarTitle;
-    private FragmentManager fragmentManager;
-    private androidx.fragment.app.FragmentTransaction fragmentTransaction;
 
     private LinearLayout dateButton;
     private int mDay, mMonth, mYear;
 
     private FloatingActionButton fab;
 
-
+    public DatePickerClick datePickerClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         mDay = dayOfMonth;
                         mMonth = month;
                         mYear = year;
+                        datePickerClick.dateClick();
                     }
                 }, mDay, mMonth, mDay);
                 datePickerDialog.show();
@@ -122,5 +122,23 @@ public class MainActivity extends AppCompatActivity {
         args.putSerializable("dairyModel", dairyModel);
         f.setArguments(args);
         return f;
+    }
+
+    public void setDatePickerClick(DatePickerClick datePickerClick) {
+        this.datePickerClick = datePickerClick;
+    }
+
+    public long getTimeStart() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(mYear, mMonth, mDay);
+
+        return calendar.getTimeInMillis();
+    }
+
+    public long getTimeFinish() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(mYear, mMonth, mDay+1);
+
+        return calendar.getTimeInMillis();
     }
 }

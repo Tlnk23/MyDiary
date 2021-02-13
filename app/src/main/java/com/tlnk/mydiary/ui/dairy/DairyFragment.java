@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tlnk.mydiary.DatePickerClick;
 import com.tlnk.mydiary.MainActivity;
 import com.tlnk.mydiary.R;
 import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
@@ -39,6 +41,16 @@ public class DairyFragment extends Fragment{
         recyclerView = view.findViewById(R.id.dairyListView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        ((MainActivity)getActivity()).setDatePickerClick(new DatePickerClick() {
+            @Override
+            public void dateClick() {
+                String stri = Long.toString(((MainActivity)getActivity()).getTimeStart());
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        stri, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         loadData();
 
