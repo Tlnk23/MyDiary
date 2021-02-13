@@ -42,16 +42,6 @@ public class DairyFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
-        ((MainActivity)getActivity()).setDatePickerClick(new DatePickerClick() {
-            @Override
-            public void dateClick() {
-                String stri = Long.toString(((MainActivity)getActivity()).getTimeStart());
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                        stri, Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-
         loadData();
 
         return view;
@@ -67,8 +57,19 @@ public class DairyFragment extends Fragment{
     }
 
     public void loadData() {
+        long timeStart = ((MainActivity)getActivity()).getFirstTimeStart();
+        long timeFinish = ((MainActivity)getActivity()).getFisrtTimeFinish();
         dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
-        dairyViewModel.init();
+        ((MainActivity)getActivity()).setDatePickerClick(new DatePickerClick() {
+            @Override
+            public void dateClick(long dateStart, long dateFinish) {
+                String stri = Long.toString(((MainActivity)getActivity()).getTimeStart());
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        stri, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+        dairyViewModel.init(timeStart, timeFinish);
         dairyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<DairyModel>>() {
             @Override
             public void onChanged(ArrayList<DairyModel> dairyModels) {

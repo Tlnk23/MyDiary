@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         mDay = dayOfMonth;
                         mMonth = month;
                         mYear = year;
-                        datePickerClick.dateClick();
+                        datePickerClick.dateClick(getTimeStart(), getTimeFinish());
                     }
                 }, mDay, mMonth, mDay);
                 datePickerDialog.show();
@@ -112,10 +112,6 @@ public class MainActivity extends AppCompatActivity {
         dateButton.setVisibility(View.VISIBLE);
     }
 
-    public String getDate() {
-        return toolbarTitle.getText().toString();
-    }
-
     public TaskDescriptionFragment newInstance(DairyModel dairyModel) {
         TaskDescriptionFragment f = new TaskDescriptionFragment();
         Bundle args = new Bundle();
@@ -126,6 +122,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDatePickerClick(DatePickerClick datePickerClick) {
         this.datePickerClick = datePickerClick;
+    }
+
+    public long getFirstTimeStart() {
+        Date currentDate = new Date();
+
+        return currentDate.getTime();
+    }
+
+    public long getFisrtTimeFinish() {
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
+        return c.getTimeInMillis();
     }
 
     public long getTimeStart() {

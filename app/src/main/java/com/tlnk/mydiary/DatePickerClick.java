@@ -1,5 +1,5 @@
 package com.tlnk.mydiary;
 
 public interface DatePickerClick {
-    void dateClick();
+    void dateClick(long dateStart, long dateFinish);
 }
