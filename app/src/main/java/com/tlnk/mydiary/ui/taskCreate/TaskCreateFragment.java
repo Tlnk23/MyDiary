@@ -49,7 +49,12 @@ public class TaskCreateFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        editDate.setText(dayOfMonth + "." + month + "."+year);
+                        int trueMonth = month + 1;
+                        editDate.setText(dayOfMonth + "." + trueMonth + "."+year);
+                        mDay = dayOfMonth;
+                        mMonth = month;
+                        mYear = year;
+
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();

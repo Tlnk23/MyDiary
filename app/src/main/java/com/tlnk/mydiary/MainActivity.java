@@ -61,15 +61,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Calendar calendar = Calendar.getInstance();
-                mDay = calendar.get(Calendar.DATE);
+                mDay = calendar.get(Calendar.DAY_OF_MONTH);
                 mMonth = calendar.get(Calendar.MONTH);
                 mYear = calendar.get(Calendar.YEAR);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        toolbarTitle.setText(dayOfMonth + "." + month + "."+year);
+                        int trueMonth = month + 1;
+                        toolbarTitle.setText(dayOfMonth + "." + trueMonth + "."+year);
+                        mDay = dayOfMonth;
+                        mMonth = month;
+                        mYear = year;
                     }
-                }, mYear, mMonth, mDay);
+                }, mDay, mMonth, mDay);
                 datePickerDialog.show();
             }
         });
