@@ -53,7 +53,7 @@ public class TaskDescriptionFragment extends Fragment {
         dateStart.setTimeInMillis(millisStart);
         dateFinish.setTimeInMillis(millisFinish);
 
-        String finalDate = dateStart.get(Calendar.HOUR_OF_DAY) + ":" + dateStart.get(Calendar.MINUTE) + " - " + dateFinish.get(Calendar.HOUR_OF_DAY) + ":" + dateFinish.get(Calendar.MINUTE);
+        String finalDate = dateStart.get(Calendar.HOUR_OF_DAY) + ":" + dateStart.get(Calendar.MINUTE) + " - " + dateFinish.get(Calendar.HOUR_OF_DAY) + ":" + dateFinish.get(Calendar.MINUTE) + "     " + dateStart.get(Calendar.DAY_OF_MONTH) + "." + dateStart.get(Calendar.MONTH) + "." + dateStart.get(Calendar.YEAR);
 
         return (finalDate);
     }

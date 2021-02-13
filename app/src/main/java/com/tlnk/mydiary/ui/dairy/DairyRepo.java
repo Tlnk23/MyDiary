@@ -21,26 +21,20 @@ public class DairyRepo {
     private MutableLiveData<ArrayList<DairyModel>> name = new MutableLiveData<>();
 
     public static DairyRepo getInstance() {
-
-        if (instance == null) {
-            instance = new DairyRepo();
-        }
-
+        instance = new DairyRepo();
         return instance;
     }
 
-    public MutableLiveData<ArrayList<DairyModel>> getNames() {
-        if (dairyModels.size() == 0) {
-            loadNames();
-        }
+    public MutableLiveData<ArrayList<DairyModel>> getNames(long timeStart, long timeFinish) {
+        loadNames(timeStart, timeFinish);
         name.setValue(dairyModels);
         return name;
     }
 
-    private void loadNames() {
+    private void loadNames(long timeStart, long timeFinish) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child("Data").orderByValue();
+        Query query = reference.child("Data").orderByChild("date_start");
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

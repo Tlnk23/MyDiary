@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tlnk.mydiary.DateClickListener;
 import com.tlnk.mydiary.MainActivity;
 import com.tlnk.mydiary.R;
 import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
@@ -30,6 +32,8 @@ public class DairyFragment extends Fragment{
     private RecyclerView recyclerView;
     private DairyAdapter dairyAdapter;
     private DairyViewModel dairyViewModel;
+    private ArrayList<DairyModel> list;
+    private DairyAdapter newDairyAdapter;
 
     @Nullable
     @Override
@@ -39,6 +43,17 @@ public class DairyFragment extends Fragment{
         recyclerView = view.findViewById(R.id.dairyListView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        ((MainActivity)getActivity()).setDateClickListener(new DateClickListener() {
+            @Override
+            public void dateClick(String str) {
+                String stri = Long.toString(((MainActivity)getActivity()).getTimeStart());
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        stri, Toast.LENGTH_SHORT);
+                toast.show();
+
+            }
+        });
 
         loadData();
 
@@ -56,7 +71,7 @@ public class DairyFragment extends Fragment{
 
     public void loadData() {
         dairyViewModel = ViewModelProviders.of(getActivity()).get(DairyViewModel.class);
-        dairyViewModel.init();
+        dairyViewModel.init(((MainActivity)getActivity()).getTimeStart(), ((MainActivity)getActivity()).getTimeFinish());
         dairyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<DairyModel>>() {
             @Override
             public void onChanged(ArrayList<DairyModel> dairyModels) {
@@ -67,5 +82,4 @@ public class DairyFragment extends Fragment{
         taskClickListner();
         recyclerView.setAdapter(dairyAdapter);
     }
-
 }

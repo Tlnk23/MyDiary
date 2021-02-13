@@ -57,6 +57,11 @@ public class DairyAdapter extends RecyclerView.Adapter<DairyAdapter.DairyViewHol
         return dairyModels.size();
     }
 
+    public void clearItems() {
+        dairyModels.clear();
+        notifyDataSetChanged();
+    }
+
     class DairyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;

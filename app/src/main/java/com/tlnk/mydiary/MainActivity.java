@@ -22,6 +22,7 @@ import com.tlnk.mydiary.ui.taskCreate.TaskCreateFragment;
 import com.tlnk.mydiary.ui.taskDescription.TaskDescriptionFragment;
 
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private TextView toolbarTitle;
-    private FragmentManager fragmentManager;
-    private androidx.fragment.app.FragmentTransaction fragmentTransaction;
 
     private LinearLayout dateButton;
     private int mDay, mMonth, mYear;
 
     private FloatingActionButton fab;
+
+    public DateClickListener dateClickListener;
 
 
 
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.main_toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(dataSet());
+//        toolbarTitle.setText(dataSet());
+
+        setDateClickListener(dateClickListener);
 
         setSupportActionBar(toolbar);
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         toolbarTitle.setText(dayOfMonth + "." + month + "."+year);
+                        dateClickListener.dateClick(dayOfMonth + "." + month + "."+year);
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -118,5 +122,30 @@ public class MainActivity extends AppCompatActivity {
         args.putSerializable("dairyModel", dairyModel);
         f.setArguments(args);
         return f;
+    }
+
+    public void setDateClickListener(DateClickListener dateClickListener) {
+        this.dateClickListener = dateClickListener;
+    }
+
+    public long getTimeStart() {
+        String str = toolbarTitle.getText().toString();
+        ParsePosition pp1 = new ParsePosition(0);
+        Date date=new SimpleDateFormat("dd.MM.yyyy").parse(str, pp1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return calendar.getTimeInMillis();
+    }
+
+    public long getTimeFinish() {
+        String str = toolbarTitle.getText().toString();
+        ParsePosition pp1 = new ParsePosition(0);
+        Date date=new SimpleDateFormat("dd.MM.yyyy").parse(str, pp1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        return calendar.getTimeInMillis();
     }
 }
